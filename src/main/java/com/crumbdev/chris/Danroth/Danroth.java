@@ -1,6 +1,5 @@
 package com.crumbdev.chris.Danroth;
 
-import sun.net.idn.StringPrep;
 
 /**
  * Created by IntelliJ IDEA.
