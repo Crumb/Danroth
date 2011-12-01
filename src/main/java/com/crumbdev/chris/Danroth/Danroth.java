@@ -10,6 +10,7 @@ package com.crumbdev.chris.Danroth;
 public class Danroth {
     public static void main(String[] args)
     {
-        System.out.println("herpaderp");
+        for(int i = 0; i < args.length; i++)
+            System.out.println(args[i]);
     }
 }
