@@ -20,11 +20,11 @@ public class Danroth {
         String ident = "Danroth";
         for(int i = 0; i < args.length; i++)
         {
-            System.out.println(args[i]);
+            //System.out.println(args[i]);
             if(args[i].startsWith("--nickserv="))
             {
-                args[i].substring(10, args[i].length());
-                System.out.println(args[i].substring(10, args[i].length()));
+                args[i].substring(11, args[i].length());
+                System.out.println(args[i].substring(11, args[i].length()));
             }
         }
     }
