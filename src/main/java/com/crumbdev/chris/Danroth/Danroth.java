@@ -103,7 +103,9 @@ public class Danroth {
                 writer = new PrintWriter(connection.getOutputStream(), true);
                 reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 writer.write("NICK " + nick + "\n");
+                writer.flush();
                 writer.write("USER " + ident + " 0 * :" + ident + "\n");
+                writer.flush();
                 while(true)
                 {
                     if(reader.ready())
