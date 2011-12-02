@@ -1,6 +1,9 @@
 package com.crumbdev.chris.Danroth;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: chris
@@ -15,7 +18,7 @@ public class Danroth {
         String nickserv = "";
         String server = "irc.esper.net";
         int port = 6667;
-        String channels = "";
+        List channels = new ArrayList();
         String nick = "Danroth";
         String ident = "Danroth";
         for(int i = 0; i < args.length; i++)
@@ -25,9 +28,11 @@ public class Danroth {
                 System.out.println("Help page here :P");
                 System.out.println("Arguments list:");
                 System.out.println("\t--help                        Shows this page");
-                System.out.println("\t--nickserv=[Passowrd]         Identifies the bot to nickserv upon connect using the specified password");
+                System.out.println("\t--nickserv=[Password]         Identifies the bot to nickserv upon connect using the specified password");
                 System.out.println("\t--server=[IRC Server Address] The address of the IRC server. Default Esper");
                 System.out.println("\t--port=[Port]                 The port to connect to the server using. Default 6667");
+                System.out.println("\t--nick=[Nick]                 The nickname for the bot to use");
+                System.out.println("\t--ident=[Ident]               The ident/username for the bot to use");
                 System.out.println("");
                 System.exit(0);
                 return;
@@ -57,6 +62,20 @@ public class Danroth {
                 nick = args[i].substring("--nick=".length(), args[i].length());
                 System.out.println("Using nick " + nick);
             }
+            else if(args[i].toLowerCase().startsWith("--ident="))
+            {
+                nick = args[i].substring("--ident=".length(), args[i].length());
+                System.out.println("Using ident " + ident);
+            }
+            else if(args[i].startsWith("#"))
+            {
+                channels.add(args[i]);
+            }
+        }
+        System.out.println("Channel List");
+        for(int i = 0; i < channels.toArray().length; i++)
+        {
+            System.out.println("\t" + channels.get(i));
         }
     }
 }
