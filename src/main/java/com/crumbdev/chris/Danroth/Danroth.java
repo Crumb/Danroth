@@ -117,6 +117,20 @@ public class Danroth {
                             writeline("PRIVMSG NickServ :IDENTIFY " + nickserv, writer);
                             usenickserv = false;
                         }
+
+                        try{
+                            switch(Integer.parseInt(read.split(" ")[1]))
+                            {
+                                case 1:
+                                    //Join all the channels. This is the first message to be sent out from the server to state that you are connected.
+                                    for(int i = 0; i < channels.toArray().length; i++)
+                                    {
+                                        writeline("JOIN " + channels.get(i), writer);
+                                    }
+                                    break;
+                            }
+                        }
+                        catch (Exception e) {}
                     }
                 }
             }
