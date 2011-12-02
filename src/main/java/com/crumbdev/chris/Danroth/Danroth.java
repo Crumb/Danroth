@@ -52,6 +52,11 @@ public class Danroth {
                     return;
                 }
             }
+            else if(args[i].toLowerCase().startsWith("--server="))
+            {
+                server = args[i].toLowerCase().substring("--server=".length(), args[i].length());
+                System.out.println("Using " + server + " as the server.");
+            }
         }
     }
 }
