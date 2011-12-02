@@ -14,6 +14,10 @@ import java.net.*;
  * To change this template use File | Settings | File Templates.
  */
 public class Danroth {
+
+    Socket connection;
+    PrintWriter writer;
+    BufferedReader reader;
     public static void main(String[] args)
     {
         (new Danroth()).DanrothStart(args);
@@ -100,9 +104,6 @@ public class Danroth {
 
         while( true )
         {
-            Socket connection;
-            PrintWriter writer;
-            BufferedReader reader;
             try {
                 connection = new Socket(server, port);
                 writer = new PrintWriter(connection.getOutputStream(), true);
