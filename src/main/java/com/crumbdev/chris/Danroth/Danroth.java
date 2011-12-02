@@ -139,7 +139,7 @@ public class Danroth {
                                 if(read.split(" ")[2].equalsIgnoreCase(nick))
                                 {
                                     responsePrefix = "PRIVMSG " + read.split(" ")[0].split("@")[0].substring(1) + " :";
-                                    command = read.split(" ")[3].substring(2);
+                                    command = read.split(" ")[3].substring(1);
                                 }
                                 else if(read.split(" ")[3].startsWith(":^"))
                                 {
@@ -155,7 +155,10 @@ public class Danroth {
                                 {
                                     continue;
                                 }
-                                System.out.println(command);
+                                if(command.equalsIgnoreCase("bwiki"))
+                                {
+                                    writeline(responsePrefix + "bwiki command was used", writer);
+                                }
                             }
                         }
                     }
