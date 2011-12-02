@@ -162,6 +162,7 @@ public class Danroth {
                             }
                         }
                     }
+                    Thread.sleep(1000);
                 }
             }
             catch(UnknownHostException e)
