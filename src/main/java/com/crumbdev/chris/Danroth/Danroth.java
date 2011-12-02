@@ -3,6 +3,8 @@ package com.crumbdev.chris.Danroth;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.*;
+import java.net.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -89,6 +91,36 @@ public class Danroth {
         for(int i = 0; i < channels.toArray().length; i++)
         {
             System.out.println("\t" + channels.toArray()[i]);
+        }
+
+        while( true )
+        {
+            Socket connection;
+            PrintWriter writer;
+            BufferedReader reader;
+            try {
+                connection = new Socket(server, port);
+                writer = new PrintWriter(connection.getOutputStream(), true);
+                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            }
+            catch(UnknownHostException e)
+            {
+                System.out.println("Oops, your host was fucked, Try again pls ("+ server + ")");
+                System.exit(1);
+            }
+            catch (Exception e)
+            {
+                System.out.println("oops, something derped. Error stack: ");
+                e.printStackTrace();
+                System.exit(1);
+            }
+            writer.write("USER " + ident + " 0 * :" + ident + "\n");
+            writer.write("NICK " + nick + "\n");
+            while(true)
+            {
+                if(reader.ready())
+                    System.out.println(reader.readLine());
+            }
         }
     }
 }
