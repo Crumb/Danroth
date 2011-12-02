@@ -75,7 +75,7 @@ public class Danroth {
         System.out.println("Channel List");
         for(int i = 0; i < channels.toArray().length; i++)
         {
-            System.out.println("\t" + channels.get(i));
+            System.out.println("\t" + channels.toArray()[i]);
         }
     }
 }
