@@ -16,7 +16,12 @@ import java.net.*;
 public class Danroth {
     public static void main(String[] args)
     {
-        //Define variables
+        (new Danroth()).DanrothStart(args);
+    }
+
+    public void DanrothStart(String[] args)
+    {
+         //Define variables
         Boolean usenickserv = false;
         String nickserv = "";
         String server = "irc.esper.net";
@@ -132,34 +137,7 @@ public class Danroth {
                         }
                         catch (Exception e)
                         {
-                            if(read.split(" ")[1].equalsIgnoreCase("PRIVMSG"))
-                            {
-                                String responsePrefix;
-                                String command;
-                                if(read.split(" ")[2].equalsIgnoreCase(nick))
-                                {
-                                    responsePrefix = "PRIVMSG " + read.split(" ")[0].split("!")[0].substring(1) + " :";
-                                    command = read.split(" ")[3].substring(1);
-                                }
-                                else if(read.split(" ")[3].startsWith(":^"))
-                                {
-                                    responsePrefix = "PRIVMSG " + read.split(" ")[2] + " :";
-                                    command = read.split(" ")[3].substring(2);
-                                }
-                                else if(read.split(" ")[3].startsWith(":!"))
-                                {
-                                    responsePrefix = "NOTICE " + read.split(" ")[0].split("!")[0].substring(1) + " :";
-                                    command = read.split(" ")[3].substring(2);
-                                }
-                                else
-                                {
-                                    continue;
-                                }
-                                if(command.equalsIgnoreCase("bwiki"))
-                                {
-                                    writeline(responsePrefix + "bwiki command was used", writer);
-                                }
-                            }
+                              interpret(read);
                         }
                     }
                     Thread.sleep(1000);
@@ -179,7 +157,74 @@ public class Danroth {
         }
     }
 
-    public static void writeline(String towrite, PrintWriter writer)
+    public void interpret (String read)
+    {
+        synchronized (this)
+        {
+            if(read.split(" ")[1].equalsIgnoreCase("PRIVMSG"))
+            {
+                String responsePrefix;
+                String command;
+                if(read.split(" ")[2].equalsIgnoreCase(nick))
+                {
+                    responsePrefix = "PRIVMSG " + read.split(" ")[0].split("!")[0].substring(1) + " :";
+                    command = read.split(" ")[3].substring(1);
+                }
+                else if(read.split(" ")[3].startsWith(":^"))
+                {
+                    responsePrefix = "PRIVMSG " + read.split(" ")[2] + " :";
+                    command = read.split(" ")[3].substring(2);
+                }
+                else if(read.split(" ")[3].startsWith(":!"))
+                {
+                    responsePrefix = "NOTICE " + read.split(" ")[0].split("!")[0].substring(1) + " :";
+                    command = read.split(" ")[3].substring(2);
+                }
+                else
+                {
+                    return;
+                }
+
+                //
+                // Commands
+                //
+                if(command.equalsIgnoreCase("bwiki"))
+                {
+                    writeline(responsePrefix + "bwiki command was used", writer);
+                }
+                else if(command.equalsIgnoreCase("build"))
+                {
+                    writeline(responsePrefix + "build command was used", writer);
+                }
+                else if(command.equalsIgnoreCase("latest"))
+                {
+                    writeline(responsePrefix + "latest command was used", writer);
+                }
+                else if(command.equalsIgnoreCase("notch"))
+                {
+
+                }
+                else if(command.equalsIgnoreCase("rules"))
+                {
+
+                }
+                else if(command.equalsIgnoreCase("rule"))
+                {
+
+                }
+                else if(command.equalsIgnoreCase("version"))
+                {
+
+                }
+                else if(command.equalsIgnoreCase("help"))
+                {
+
+                }
+            }
+        }
+    }
+
+    public void writeline(String towrite, PrintWriter writer)
     {
         writer.write(towrite + "\n");
         writer.flush();
