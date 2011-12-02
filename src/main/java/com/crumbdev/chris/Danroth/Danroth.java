@@ -102,14 +102,17 @@ public class Danroth {
                 connection = new Socket(server, port);
                 writer = new PrintWriter(connection.getOutputStream(), true);
                 reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                writer.write("NICK " + nick + "\n");
-                writer.flush();
-                writer.write("USER " + ident + " 0 * :" + ident + "\n");
-                writer.flush();
+                writeline("NICK " + nick, writer);
+                writeline("USER " + ident + " 0 * :" + ident, writer);
                 while(true)
                 {
                     if(reader.ready())
-                        System.out.println(reader.readLine());
+                    {
+                        String read = reader.readLine();
+                        System.out.println(read);
+                        if(read.startsWith("PING"))
+                            writeline("PONG " + read.split(" ") [1], writer);
+                    }
                 }
             }
             catch(UnknownHostException e)
@@ -124,5 +127,11 @@ public class Danroth {
                 System.exit(1);
             }
         }
+    }
+
+    public static void writeline(String towrite, PrintWriter writer)
+    {
+        writer.write(towrite + "\n");
+        writer.flush();
     }
 }
