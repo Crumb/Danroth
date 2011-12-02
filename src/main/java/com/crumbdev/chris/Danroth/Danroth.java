@@ -214,18 +214,6 @@ public class Danroth {
                 {
                     writeline(noChannelPrefix + "\u0002=========IRC Rules========", writer);
                     writeline(noChannelPrefix + "IRC Rules can be found at http://wiki.bukkit.org/IRC", writer);
-                    writeline(noChannelPrefix + "Rules List:", writer);
-                    writeline(noChannelPrefix + "1.  ALWAYS READ THE TOPIC                          10. No selling of products or services, unless ", writer);
-                    writeline(noChannelPrefix + "2.  We are volunteers!                                 approved by a member of the channel staff.", writer);
-                    writeline(noChannelPrefix + "3.  This is not designed as a support channel!     11. Do not ask for a position on staff.", writer);
-                    writeline(noChannelPrefix + "4.  Ignorance isn't a valid defense.               12. No advertising.", writer);
-                    writeline(noChannelPrefix + "5.  No excessive usage of profanity                13. Disrespect and intolerance towards other ", writer);
-                    writeline(noChannelPrefix + "6.  No racism, discrimination, threats, harassment     people is NOT acceptable.", writer);
-                    writeline(noChannelPrefix + "    or personal attacks of any kind are permitted. 14. BE PATIENT and no excessive repeating", writer);
-                    writeline(noChannelPrefix + "7.  No vulgarity or obscenity.                     15. Pastebin logs, code snippets, anything", writer);
-                    writeline(noChannelPrefix + "8.  No spamming is permitted, whatsoever.              longer than 3 lines!", writer);
-                    writeline(noChannelPrefix + "9.  No flaming, inciting hatred or instigating     16. This is an English only channel", writer);
-                    writeline(noChannelPrefix + "    flame bait is permitted.", writer);
                     writeline(noChannelPrefix + "\u0002==========================", writer);
                 }
                 else if(command.equalsIgnoreCase("rule"))
