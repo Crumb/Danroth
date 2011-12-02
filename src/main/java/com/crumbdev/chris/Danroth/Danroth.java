@@ -102,6 +102,13 @@ public class Danroth {
                 connection = new Socket(server, port);
                 writer = new PrintWriter(connection.getOutputStream(), true);
                 reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                writer.write("USER " + ident + " 0 * :" + ident + "\n");
+                writer.write("NICK " + nick + "\n");
+                while(true)
+                {
+                    if(reader.ready())
+                        System.out.println(reader.readLine());
+                }
             }
             catch(UnknownHostException e)
             {
@@ -113,13 +120,6 @@ public class Danroth {
                 System.out.println("oops, something derped. Error stack: ");
                 e.printStackTrace();
                 System.exit(1);
-            }
-            writer.write("USER " + ident + " 0 * :" + ident + "\n");
-            writer.write("NICK " + nick + "\n");
-            while(true)
-            {
-                if(reader.ready())
-                    System.out.println(reader.readLine());
             }
         }
     }
