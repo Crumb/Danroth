@@ -25,7 +25,9 @@ public class Danroth {
                 System.out.println("Help page here :P");
                 System.out.println("Arguments list:");
                 System.out.println("\t--help                        Shows this page");
-                System.out.println("\t--nickserv=[true|false]       Identifies the bot to nickserv upon connect");
+                System.out.println("\t--nickserv=[Passowrd]         Identifies the bot to nickserv upon connect using the specified password");
+                System.out.println("\t--server=[IRC Server Address] The address of the IRC server. Default Esper");
+                System.out.println("\t--port=[Port]                 The port to connect to the server using. Default 6667");
                 System.out.println("");
                 System.exit(0);
                 return;
@@ -36,26 +38,19 @@ public class Danroth {
             //System.out.println(args[i]);
             if(args[i].toLowerCase().startsWith("--nickserv="))
             {
-                if(args[i].substring(11, args[i].length()).equalsIgnoreCase(("true")) || args[i].substring(11, args[i].length()).equalsIgnoreCase("yes"))
-                {
-                    usenickserv = true;
-                    System.out.println("Using NickServ authentication.");
-                }
-                else if(args[i].substring(11, args[i].length()).equalsIgnoreCase(("false")) || args[i].substring(11, args[i].length()).equalsIgnoreCase("no"))
-                {
-                    System.out.println("Not using NickServ authentication.");
-                }
-                else
-                {
-                    System.out.println("Malformed NickServ parameter. Use true or false. You provided: " + args[i].substring(11, args[i].length()));
-                    System.exit(1);
-                    return;
-                }
+                usenickserv = true;
+                nickserv = args[i].substring("--nickserv=".length(), args[i].length());
+                System.out.println("Using NickServ authentication.");
             }
             else if(args[i].toLowerCase().startsWith("--server="))
             {
                 server = args[i].toLowerCase().substring("--server=".length(), args[i].length());
                 System.out.println("Using " + server + " as the server.");
+            }
+            else if(args[i].toLowerCase().startsWith("--port="))
+            {
+                port = Integer.parseInt(args[i].substring("--port=".length(), args[i].length()));
+                System.out.println("Using port " + port);
             }
         }
     }
