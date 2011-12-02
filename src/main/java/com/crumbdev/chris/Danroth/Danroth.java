@@ -102,8 +102,8 @@ public class Danroth {
                 connection = new Socket(server, port);
                 writer = new PrintWriter(connection.getOutputStream(), true);
                 reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                writer.write("USER " + ident + " 0 * :" + ident + "\n");
                 writer.write("NICK " + nick + "\n");
+                writer.write("USER " + ident + " 0 * :" + ident + "\n");
                 while(true)
                 {
                     if(reader.ready())
