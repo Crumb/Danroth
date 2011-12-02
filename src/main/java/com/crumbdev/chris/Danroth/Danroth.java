@@ -139,17 +139,17 @@ public class Danroth {
                                 if(read.split(" ")[2].equalsIgnoreCase(nick))
                                 {
                                     responsePrefix = "PRIVMSG " + read.split(" ")[0].split("@")[0].substring(1) + " :";
-                                    command = read.split(" ")[4].substring(2);
+                                    command = read.split(" ")[3].substring(2);
                                 }
                                 else if(read.split(" ")[3].startsWith(":^"))
                                 {
                                     responsePrefix = "PRIVMSG " + read.split(" ")[2] + " :";
-                                    command = read.split(" ")[3].substring(3);
+                                    command = read.split(" ")[3].substring(2);
                                 }
                                 else if(read.split(" ")[3].startsWith(":!"))
                                 {
                                     responsePrefix = "NOTICE " + read.split(" ")[2] + " :";
-                                    command = read.split(" ")[3].substring(3);
+                                    command = read.split(" ")[3].substring(2);
                                 }
                                 else
                                 {
