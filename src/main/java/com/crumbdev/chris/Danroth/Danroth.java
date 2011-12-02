@@ -140,7 +140,7 @@ public class Danroth {
                               interpret(read);
                         }
                     }
-                    Thread.sleep(1000);
+                    Thread.sleep(200);
                 }
             }
             catch(UnknownHostException e)
