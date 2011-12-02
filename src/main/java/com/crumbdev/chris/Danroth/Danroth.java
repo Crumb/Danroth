@@ -70,6 +70,7 @@ public class Danroth {
             else if(args[i].startsWith("#"))
             {
                 channels.add(args[i]);
+                System.out.println("Channel: " + args[i]);
             }
         }
         System.out.println("Channel List");
