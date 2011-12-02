@@ -224,7 +224,27 @@ public class Danroth {
                 }
                 else if(command.equalsIgnoreCase("help"))
                 {
-                    writeline(noChannelPrefix + "help command was used", writer);
+                    writeline(noChannelPrefix + " :\u0002=========IRC Rules========", writer);
+                    writeline(noChannelPrefix + " :IRC Rules can be found at http://wiki.bukkit.org/IRC", writer);
+                    writeline(noChannelPrefix + " :Type !rule <number> or ^rule <number> to dislpay a rule.", writer);
+                    writeline(noChannelPrefix + " :Rules List:", writer);
+                    writeline(noChannelPrefix + " :1. ALWAYS READ THE TOPIC", writer);
+                    writeline(noChannelPrefix + " :2. We are volunteers!", writer);
+                    writeline(noChannelPrefix + " :3. This is not designed as a support channel!", writer);
+                    writeline(noChannelPrefix + " :4. Ignorance isn't a valid defense.", writer);
+                    writeline(noChannelPrefix + " :5. No excessive usage of profanity", writer);
+                    writeline(noChannelPrefix + " :6. No racism, discrimination, threats, harassment or personal attacks of any kind are permitted.", writer);
+                    writeline(noChannelPrefix + " :7. No vulgarity or obscenity.", writer);
+                    writeline(noChannelPrefix + " :8. No spamming is permitted, whatsoever.", writer);
+                    writeline(noChannelPrefix + " :9. No flaming, inciting hatred or instigating flame bait is permitted.", writer);
+                    writeline(noChannelPrefix + " :10. No selling of products or services, unless approved by a member of the channel staff.", writer);
+                    writeline(noChannelPrefix + " :11. Do not ask for a position on staff.", writer);
+                    writeline(noChannelPrefix + " :12. No advertising.", writer);
+                    writeline(noChannelPrefix + " :13. Disrespect and intolerance towards other people is NOT acceptable.", writer);
+                    writeline(noChannelPrefix + " :14. BE PATIENT and no excessive repeating", writer);
+                    writeline(noChannelPrefix + " :15. Pastebin logs, code snippets, anything longer than 3 lines!", writer);
+                    writeline(noChannelPrefix + " :16. This is an English only channel", writer);
+                    writeline(noChannelPrefix + " :\u0002==========================", writer);
                 }
             }
         }
