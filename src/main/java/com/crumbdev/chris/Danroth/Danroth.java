@@ -166,19 +166,23 @@ public class Danroth {
             if(read.split(" ")[1].equalsIgnoreCase("PRIVMSG"))
             {
                 String responsePrefix;
+                String noChannelPrefix;
                 String command;
                 if(read.split(" ")[2].equalsIgnoreCase(nick))
                 {
+                    noChannelPrefix = "PRIVMSG " + read.split(" ")[0].split("!")[0].substring(1) + " :";
                     responsePrefix = "PRIVMSG " + read.split(" ")[0].split("!")[0].substring(1) + " :";
                     command = read.split(" ")[3].substring(1);
                 }
                 else if(read.split(" ")[3].startsWith(":^"))
                 {
+                    noChannelPrefix = "NOTICE " + read.split(" ")[0].split("!")[0].substring(1) + " :";
                     responsePrefix = "PRIVMSG " + read.split(" ")[2] + " :";
                     command = read.split(" ")[3].substring(2);
                 }
                 else if(read.split(" ")[3].startsWith(":!"))
                 {
+                    noChannelPrefix = "NOTICE " + read.split(" ")[0].split("!")[0].substring(1) + " :";
                     responsePrefix = "NOTICE " + read.split(" ")[0].split("!")[0].substring(1) + " :";
                     command = read.split(" ")[3].substring(2);
                 }
@@ -208,7 +212,7 @@ public class Danroth {
                 }
                 else if(command.equalsIgnoreCase("rules"))
                 {
-                    writeline(responsePrefix + "rules command was used", writer);
+                    writeline(noChannelPrefix + "rules command was used", writer);
                 }
                 else if(command.equalsIgnoreCase("rule"))
                 {
@@ -220,7 +224,7 @@ public class Danroth {
                 }
                 else if(command.equalsIgnoreCase("help"))
                 {
-                    writeline(responsePrefix + "help command was used", writer);
+                    writeline(noChannelPrefix + "help command was used", writer);
                 }
             }
         }
