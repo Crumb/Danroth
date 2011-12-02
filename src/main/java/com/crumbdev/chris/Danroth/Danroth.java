@@ -33,7 +33,7 @@ public class Danroth {
                 System.out.println("\t--port=[Port]                 The port to connect to the server using. Default 6667");
                 System.out.println("\t--nick=[Nick]                 The nickname for the bot to use");
                 System.out.println("\t--ident=[Ident]               The ident/username for the bot to use");
-                System.out.println("");
+                System.out.println("\t--channel=[#channelname]      Join #channel on connect");
                 System.exit(0);
                 return;
             }
