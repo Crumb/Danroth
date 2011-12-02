@@ -148,7 +148,7 @@ public class Danroth {
                                 }
                                 else if(read.split(" ")[3].startsWith(":!"))
                                 {
-                                    responsePrefix = "NOTICE " + read.split(" ")[2] + " :";
+                                    responsePrefix = "NOTICE " + read.split(" ")[0].split("@")[0].substring(1) + " :";
                                     command = read.split(" ")[3].substring(2);
                                 }
                                 else
