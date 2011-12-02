@@ -20,20 +20,35 @@ public class Danroth {
         String ident = "Danroth";
         for(int i = 0; i < args.length; i++)
         {
+            if(args[i].toLowerCase().equalsIgnoreCase("--help"))
+            {
+                System.out.println("Help page here :P");
+                System.out.println("Arguments list:");
+                System.out.println("\t--nickserv=[true|false] - Identifies the bot to nickserv upon connect");
+                System.out.println("");
+                System.exit(0);
+                return;
+            }
+        }
+        for(int i = 0; i < args.length; i++)
+        {
             //System.out.println(args[i]);
             if(args[i].toLowerCase().startsWith("--nickserv="))
             {
                 if(args[i].substring(11, args[i].length()).equalsIgnoreCase(("true")) || args[i].substring(11, args[i].length()).equalsIgnoreCase("yes"))
                 {
                     usenickserv = true;
+                    System.out.println("Using NickServ authentication.");
                 }
                 else if(args[i].substring(11, args[i].length()).equalsIgnoreCase(("false")) || args[i].substring(11, args[i].length()).equalsIgnoreCase("no"))
                 {
-
+                    System.out.println("Not using NickServ authentication.");
                 }
                 else
                 {
                     System.out.println("Malformed NickServ parameter. Use true or false. You provided: " + args[i].substring(11, args[i].length()));
+                    System.exit(1);
+                    return;
                 }
             }
         }
