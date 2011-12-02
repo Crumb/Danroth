@@ -112,6 +112,11 @@ public class Danroth {
                         System.out.println(read);
                         if(read.startsWith("PING"))
                             writeline("PONG " + read.split(" ") [1], writer);
+                        else if(read.startsWith(":NickServ") && usenickserv)
+                        {
+                            writeline("PRIVMSG NickServ :IDENTIFY " + nickserv, writer);
+                            usenickserv = false;
+                        }
                     }
                 }
             }
