@@ -18,6 +18,13 @@ public class Danroth {
     Socket connection;
     PrintWriter writer;
     BufferedReader reader;
+    Boolean usenickserv = false;
+    String nickserv = "";
+    String server = "irc.esper.net";
+    int port = 6667;
+    List channels = new ArrayList();
+    String nick = "Danroth";
+    String ident = "Danroth";
     public static void main(String[] args)
     {
         (new Danroth()).DanrothStart(args);
@@ -26,13 +33,7 @@ public class Danroth {
     public void DanrothStart(String[] args)
     {
          //Define variables
-        Boolean usenickserv = false;
-        String nickserv = "";
-        String server = "irc.esper.net";
-        int port = 6667;
-        List channels = new ArrayList();
-        String nick = "Danroth";
-        String ident = "Danroth";
+
 
         //If --help is found, show help window and exit
         for(int i = 0; i < args.length; i++)
