@@ -14,6 +14,7 @@ import java.util.List;
 public class Danroth {
     public static void main(String[] args)
     {
+        //Define variables
         Boolean usenickserv = false;
         String nickserv = "";
         String server = "irc.esper.net";
@@ -21,6 +22,8 @@ public class Danroth {
         List channels = new ArrayList();
         String nick = "Danroth";
         String ident = "Danroth";
+
+        //If --help is found, show help window and exit
         for(int i = 0; i < args.length; i++)
         {
             if(args[i].toLowerCase().equalsIgnoreCase("--help"))
@@ -38,6 +41,7 @@ public class Danroth {
                 return;
             }
         }
+        //Otherwise, read the arguments and store them in the appropriate variables.
         for(int i = 0; i < args.length; i++)
         {
             //System.out.println(args[i]);
@@ -71,7 +75,16 @@ public class Danroth {
             {
                 channels.add(args[i].substring("--channel=".length()));
             }
+
+            //Unknown command
+            else
+            {
+                System.out.println("Unknown argument: " + args[i]);
+                System.exit(1);
+                return;
+            }
         }
+        //Print the channel list
         System.out.println("Channel List");
         for(int i = 0; i < channels.toArray().length; i++)
         {
