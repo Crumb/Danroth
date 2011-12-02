@@ -21,10 +21,20 @@ public class Danroth {
         for(int i = 0; i < args.length; i++)
         {
             //System.out.println(args[i]);
-            if(args[i].startsWith("--nickserv="))
+            if(args[i].toLowerCase().startsWith("--nickserv="))
             {
-                args[i].substring(11, args[i].length());
-                System.out.println(args[i].substring(11, args[i].length()));
+                if(args[i].substring(11, args[i].length()).equalsIgnoreCase(("true")) || args[i].substring(11, args[i].length()).equalsIgnoreCase("yes"))
+                {
+                    usenickserv = true;
+                }
+                else if(args[i].substring(11, args[i].length()).equalsIgnoreCase(("false")) || args[i].substring(11, args[i].length()).equalsIgnoreCase("no"))
+                {
+
+                }
+                else
+                {
+                    System.out.println("Malformed NickServ parameter. Use true or false. You provided: " + args[i].substring(11, args[i].length()));
+                }
             }
         }
     }
