@@ -67,9 +67,9 @@ public class Danroth {
                 nick = args[i].substring("--ident=".length(), args[i].length());
                 System.out.println("Using ident " + ident);
             }
-            else if(args[i].startsWith("#"))
+            else if(args[i].startsWith("--channel="))
             {
-                channels.add(args[i]);
+                channels.add(args[i].substring("--channel=".length()));
                 System.out.println("Channel: " + args[i]);
             }
         }
