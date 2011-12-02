@@ -204,23 +204,23 @@ public class Danroth {
                 }
                 else if(command.equalsIgnoreCase("notch"))
                 {
-
+                    writeline(responsePrefix + "notch command was used", writer);
                 }
                 else if(command.equalsIgnoreCase("rules"))
                 {
-
+                    writeline(responsePrefix + "rules command was used", writer);
                 }
                 else if(command.equalsIgnoreCase("rule"))
                 {
-
+                    writeline(responsePrefix + "rule command was used", writer);
                 }
                 else if(command.equalsIgnoreCase("version"))
                 {
-
+                    writeline(responsePrefix + "version command was used", writer);
                 }
                 else if(command.equalsIgnoreCase("help"))
                 {
-
+                    writeline(responsePrefix + "help command was used", writer);
                 }
             }
         }
