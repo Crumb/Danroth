@@ -24,7 +24,8 @@ public class Danroth {
             {
                 System.out.println("Help page here :P");
                 System.out.println("Arguments list:");
-                System.out.println("\t--nickserv=[true|false] - Identifies the bot to nickserv upon connect");
+                System.out.println("\t--help                        Shows this page");
+                System.out.println("\t--nickserv=[true|false]       Identifies the bot to nickserv upon connect");
                 System.out.println("");
                 System.exit(0);
                 return;
