@@ -52,6 +52,11 @@ public class Danroth {
                 port = Integer.parseInt(args[i].substring("--port=".length(), args[i].length()));
                 System.out.println("Using port " + port);
             }
+            else if(args[i].toLowerCase().startsWith("--nick="))
+            {
+                nick = args[i].substring("--nick=".length(), args[i].length());
+                System.out.println("Using nick " + nick);
+            }
         }
     }
 }
