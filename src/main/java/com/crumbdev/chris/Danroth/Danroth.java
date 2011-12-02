@@ -212,18 +212,6 @@ public class Danroth {
                 }
                 else if(command.equalsIgnoreCase("rules"))
                 {
-                    writeline(noChannelPrefix + "rules command was used", writer);
-                }
-                else if(command.equalsIgnoreCase("rule"))
-                {
-                    writeline(responsePrefix + "rule command was used", writer);
-                }
-                else if(command.equalsIgnoreCase("version"))
-                {
-                    writeline(responsePrefix + "version command was used", writer);
-                }
-                else if(command.equalsIgnoreCase("help"))
-                {
                     writeline(noChannelPrefix + " :\u0002=========IRC Rules========", writer);
                     writeline(noChannelPrefix + " :IRC Rules can be found at http://wiki.bukkit.org/IRC", writer);
                     writeline(noChannelPrefix + " :Type !rule <number> or ^rule <number> to dislpay a rule.", writer);
@@ -245,6 +233,18 @@ public class Danroth {
                     writeline(noChannelPrefix + " :15. Pastebin logs, code snippets, anything longer than 3 lines!", writer);
                     writeline(noChannelPrefix + " :16. This is an English only channel", writer);
                     writeline(noChannelPrefix + " :\u0002==========================", writer);
+                }
+                else if(command.equalsIgnoreCase("rule"))
+                {
+                    writeline(responsePrefix + "rule command was used", writer);
+                }
+                else if(command.equalsIgnoreCase("version"))
+                {
+                    writeline(responsePrefix + "version command was used", writer);
+                }
+                else if(command.equalsIgnoreCase("help"))
+                {
+                    writeline(responsePrefix + "help command was used", writer);
                 }
             }
         }
