@@ -1,0 +1,13 @@
+Danroth is an IRC bot, designed for #bukkitwiki on Esper.
+
+Run with this command:
+    java -cp Danroth-1.0.jar com.crumbdev.chris.Danroth.Danroth [Commands]
+
+Commands list:
+    --help - Shows a full command list
+    --nickserv=password - Automatically identifies to NickServ using the specified password
+    --port=port - Connects to the server using the specified port (Default 6667)
+    --nick=Nick - Nickname to use on the server (Default Danroth)
+    --ident=Ident - The Ident/username to use on the server. (Default Danroth) Shows as ~Danroth
+    --server=IP - The address of the server (Default irc.esper.net)
+    --channel=#blah - A channel to join (Default: no channels). Make a new statement for each channel, e.g. --channel=#bukkitwiki --channel=#danroth
