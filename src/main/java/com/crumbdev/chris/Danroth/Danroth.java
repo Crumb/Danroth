@@ -226,7 +226,9 @@ public class Danroth {
                 }
                 else if(command.equalsIgnoreCase("help"))
                 {
-                    writeline(responsePrefix + "help command was used", writer);
+                    writeline(noChannelPrefix + "\u0002=========Danroth Commands========", writer);
+                    writeline(noChannelPrefix + "IRC Commands can be found at http://wiki.bukkit.org/IRC/Bots/Danroth", writer);
+                    writeline(noChannelPrefix + "\u0002==========================", writer);
                 }
             }
         }
