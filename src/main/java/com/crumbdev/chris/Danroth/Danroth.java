@@ -196,7 +196,19 @@ public class Danroth {
                 //
                 if(command.equalsIgnoreCase("bwiki"))
                 {
-                    writeline(responsePrefix + "bwiki command was used", writer);
+                    try{
+                    BufferedInputStream buff = new BufferedInputStream(new URL("http://google.com").openStream());
+                    byte[] data = new byte[1024];
+                    int count;
+                    while ( (count = in.read(data, 0, 1024)) != null )
+                        System.out.println(count);
+
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+
                 }
                 else if(command.equalsIgnoreCase("build"))
                 {
