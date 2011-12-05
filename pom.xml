@@ -24,4 +24,8 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
+    <properties>
+        <build.number>HERP</build.number>
+    </properties>
 </project>
