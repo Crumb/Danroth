@@ -7,6 +7,8 @@
     <groupId>com.crumbdev.chris.Danroth</groupId>
     <artifactId>Danroth</artifactId>
     <version>1.0</version>
-
+    <properties>
+        <build.number>${BUILD_NUMBER}</build.number>
+    </properties>
     
 </project>
