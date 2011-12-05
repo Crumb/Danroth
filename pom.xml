@@ -7,8 +7,27 @@
     <groupId>com.crumbdev.chris.Danroth</groupId>
     <artifactId>Danroth</artifactId>
     <version>1.0</version>
-    <properties>
+
+    <repositories>
+        <repository>
+            <id>apache-repo</id>
+            <url>http://repository.apache.org</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <version>2.2.1</version>
+            <artifactId>maven-project</artifactId>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+
+    </dependencies>
+
+    <!--<properties>
         <build.number>${BUILD_NUMBER}</build.number>
-    </properties>
+    </properties>-->
     
 </project>

@@ -6,6 +6,7 @@ import java.util.List;
 import java.io.*;
 import java.net.*;
 
+
 /**
  * Created by IntelliJ IDEA.
  * User: chris
@@ -222,6 +223,7 @@ public class Danroth {
                 }
                 else if(command.equalsIgnoreCase("version"))
                 {
+
                     writeline(noChannelPrefix + "Runnind Danroth build ${build.number}", writer);
                 }
                 else if(command.equalsIgnoreCase("help"))
