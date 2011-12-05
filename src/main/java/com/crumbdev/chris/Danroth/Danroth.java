@@ -222,7 +222,7 @@ public class Danroth {
                 }
                 else if(command.equalsIgnoreCase("version"))
                 {
-                    writeline(responsePrefix + "version command was used", writer);
+                    writeline(noChannelPrefix + "${BUILD_NUMBER}", writer);
                 }
                 else if(command.equalsIgnoreCase("help"))
                 {
