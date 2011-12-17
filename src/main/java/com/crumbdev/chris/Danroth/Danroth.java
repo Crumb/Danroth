@@ -219,7 +219,26 @@ public class Danroth {
                 }
                 else if(command.equalsIgnoreCase("rule"))
                 {
-                    writeline(responsePrefix + "rule command was used", writer);
+                    String rulenum = "";
+
+                    try{               //Trys to get the rule number, surrounded by a try/catch just in case they don't type a rule number.
+                        rulenum = read.split(" ")[4];
+                    }
+                    catch (Exception e){}
+                    if(rulenum == "1")
+                    {
+                        writeline(responsePrefix + "==Rule 1: ALWAYS READ THE TOPIC==", writer);
+                        writeline(responsePrefix + "It's the first thing you see when you connect to or join the channel and it is usually at the top of the", writer);
+                        writeline(responsePrefix + "screen at all times. Read it when you connect, when you join, when you come back from being away. Always.", writer);
+                    }
+                    else if(rulenum == "2")
+                    {
+
+                    }
+                    else if(rulenum == "3")
+                    {
+
+                    }
                 }
                 else if(command.equalsIgnoreCase("version"))
                 {
