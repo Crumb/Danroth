@@ -213,9 +213,8 @@ public class Danroth {
                 }
                 else if(command.equalsIgnoreCase("rules"))
                 {
-                    writeline(noChannelPrefix + "\u0002=========IRC Rules========", writer);
+                    writeline(noChannelPrefix + "\u0002==IRC Rules==", writer);
                     writeline(noChannelPrefix + "IRC Rules can be found at http://wiki.bukkit.org/IRC", writer);
-                    writeline(noChannelPrefix + "\u0002==========================", writer);
                 }
                 else if(command.equalsIgnoreCase("rule"))
                 {
@@ -229,13 +228,58 @@ public class Danroth {
                     switch(rulenum)
                     {
                         case 1:
-                            System.out.println("Works");
-                            writeline(responsePrefix + "==Rule 1: ALWAYS READ THE TOPIC==", writer);
+                            writeline(responsePrefix + "==Rule " + rulenum + ": ALWAYS READ THE TOPIC==", writer);
                             writeline(responsePrefix + "It's the first thing you see when you connect to or join the channel and it is usually at the top of the", writer);
                             writeline(responsePrefix + "screen at all times. Read it when you connect, when you join, when you come back from being away. Always.", writer);
                             break;
+                        case 2:
+                            writeline(responsePrefix + "==Rule " + rulenum + ": We are volunteers!==", writer);
+                            break;
+                        case 3:
+                            writeline(responsePrefix + "==Rule " + rulenum + ": This is not designed as a support channel!==", writer);
+                            break;
+                        case 4:
+                            writeline(responsePrefix + "==Rule " + rulenum + ": Ignorance isn't a valid defense.==", writer);
+                            break;
+                        case 5:
+                            writeline(responsePrefix + "==Rule " + rulenum + ": No excessive use of profanity==", writer);
+                            break;
+                        case 6:
+                            writeline(responsePrefix + "==Rule " + rulenum + ": No racism, discrimination, threats, harrasment or personal attacks of any kind are permitted.==", writer);
+                            break;
+                        case 7:
+                            writeline(responsePrefix + "==Rule " + rulenum + ": No vulgarity or obscenity.==", writer);
+                            break;
+                        case 8:
+                            writeline(responsePrefix + "==Rule " + rulenum + ": No spamming is permitted, whatsoever.==", writer);
+                            break;
+                        case 9:
+                            writeline(responsePrefix + "==Rule " + rulenum + ": No flaming, inciting hatred or instigating flame bait is permitted.==", writer);
+                            break;
+                        case 10:
+                            writeline(responsePrefix + "==Rule " + rulenum + ": No selling of products or services, unless approved by a member of channel staff.==", writer);
+                            break;
+                        case 11:
+                            writeline(responsePrefix + "==Rule " + rulenum + ": Do not ask for a position on staff.==", writer);
+                            break;
+                        case 12:
+                            writeline(responsePrefix + "==Rule " + rulenum + ": No advertising.==", writer);
+                            break;
+                        case 13:
+                            writeline(responsePrefix + "==Rule " + rulenum + ": Disrespect and intolerance towards other people is NOT acceptable==", writer);
+                            break;
+                        case 14:
+                            writeline(responsePrefix + "==Rule " + rulenum + ": BE PATIENT and no excessive repeating==", writer);
+                            break;
+                        case 15:
+                            writeline(responsePrefix + "==Rule " + rulenum + ": Pastebin logs, code snippets, anything longer than 3 lines!==", writer);
+                            break;
+                        case 16:
+                            writeline(responsePrefix + "==Rule " + rulenum + ": This is an English only channel==", writer);
+                            break;
                         default:
-                            System.out.println(rulenum);
+                            writeline(noChannelPrefix + "==Error==", writer);
+                            writeline(noChannelPrefix + "Please make sure you typed a valid number between 1 and 16. ", writer);
                             break;
                     }
 
@@ -246,9 +290,8 @@ public class Danroth {
                 }
                 else if(command.equalsIgnoreCase("help"))
                 {
-                    writeline(noChannelPrefix + "\u0002=========Danroth Commands========", writer);
+                    writeline(noChannelPrefix + "\u0002==Danroth Commands==", writer);
                     writeline(noChannelPrefix + "IRC Commands can be found at http://wiki.bukkit.org/IRC/Bots/Danroth", writer);
-                    writeline(noChannelPrefix + "\u0002==========================", writer);
                 }
             }
         }
