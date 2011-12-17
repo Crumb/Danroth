@@ -223,7 +223,7 @@ public class Danroth {
 
                     try{               //Trys to get the rule number, surrounded by a try/catch just in case they leave an empty rule number, or other non-integer.
                         rulenum = Integer.parseInt(read.split(" ")[4]);
-                        int rulenum = (int)rulenum;
+                        //int rulenum = (int)rulenum;
                     }
                     catch (Exception e){}
                     switch(rulenum)
