@@ -229,9 +229,13 @@ public class Danroth {
                     switch(rulenum)
                     {
                         case 1:
+                            System.out.println("Works");
                             writeline(responsePrefix + "==Rule 1: ALWAYS READ THE TOPIC==", writer);
                             writeline(responsePrefix + "It's the first thing you see when you connect to or join the channel and it is usually at the top of the", writer);
                             writeline(responsePrefix + "screen at all times. Read it when you connect, when you join, when you come back from being away. Always.", writer);
+                            break;
+                        default:
+                            System.out.println(rulenum);
                             break;
                     }
 
