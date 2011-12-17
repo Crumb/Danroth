@@ -219,30 +219,22 @@ public class Danroth {
                 }
                 else if(command.equalsIgnoreCase("rule"))
                 {
-                    String rulenum = "";
+                    int rulenum = -1;
 
-                    try{               //Trys to get the rule number, surrounded by a try/catch just in case they don't type a rule number.
-                        rulenum = read.split(" ")[4];
+                    try{               //Trys to get the rule number, surrounded by a try/catch just in case they leave an empty rule number, or other non-integer.
+                        rulenum = Integer.parseInt(read.split(" ")[4]);
+                        int rulenum = (int)rulenum;
                     }
                     catch (Exception e){}
-                    if(rulenum.trim().equalsIgnoreCase("1"))
+                    switch(rulenum)
                     {
-                        writeline(responsePrefix + "==Rule 1: ALWAYS READ THE TOPIC==", writer);
-                        writeline(responsePrefix + "It's the first thing you see when you connect to or join the channel and it is usually at the top of the", writer);
-                        writeline(responsePrefix + "screen at all times. Read it when you connect, when you join, when you come back from being away. Always.", writer);
+                        case 1:
+                            writeline(responsePrefix + "==Rule 1: ALWAYS READ THE TOPIC==", writer);
+                            writeline(responsePrefix + "It's the first thing you see when you connect to or join the channel and it is usually at the top of the", writer);
+                            writeline(responsePrefix + "screen at all times. Read it when you connect, when you join, when you come back from being away. Always.", writer);
+                            break;
                     }
-                    else if(rulenum == "2")
-                    {
 
-                    }
-                    else if(rulenum == "3")
-                    {
-
-                    }
-                    else
-                    {
-                       // System.out.println("N: " + rulenum);
-                    }
                 }
                 else if(command.equalsIgnoreCase("version"))
                 {
