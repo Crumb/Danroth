@@ -225,7 +225,7 @@ public class Danroth {
                         rulenum = read.split(" ")[4];
                     }
                     catch (Exception e){}
-                    if(rulenum.equalsIgnoreCase("1"))
+                    if(rulenum.trim().equalsIgnoreCase("1"))
                     {
                         writeline(responsePrefix + "==Rule 1: ALWAYS READ THE TOPIC==", writer);
                         writeline(responsePrefix + "It's the first thing you see when you connect to or join the channel and it is usually at the top of the", writer);
