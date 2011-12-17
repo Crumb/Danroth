@@ -239,6 +239,10 @@ public class Danroth {
                     {
 
                     }
+                    else
+                    {
+                        System.out.println("N: " + rulenum);
+                    }
                 }
                 else if(command.equalsIgnoreCase("version"))
                 {
