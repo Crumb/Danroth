@@ -286,7 +286,7 @@ public class Danroth {
                 }
                 else if(command.equalsIgnoreCase("version"))
                 {
-                    writeline(noChannelPrefix + "Running Danroth build " + new MavenProject().getProperties().getProperty("build.number"), writer);
+                    //writeline(noChannelPrefix + "Running Danroth build " + new MavenProject().getProperties().getProperty("build.number"), writer);
                 }
                 else if(command.equalsIgnoreCase("help"))
                 {
