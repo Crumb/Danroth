@@ -6,93 +6,66 @@ import java.util.List;
 import java.io.*;
 import java.net.*;
 import org.apache.maven.project.MavenProject;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-/**
- * Created by IntelliJ IDEA.
- * User: chris
- * Date: 1/12/11
- * Time: 9:16 PM
- * To change this template use File | Settings | File Templates.
- */
 public class Danroth {
 
-    Socket connection;
-    PrintWriter writer;
-    BufferedReader reader;
-    Boolean usenickserv = false;
-    String nickserv = "";
-    String server = "irc.esper.net";
-    int port = 6667;
-    List channels = new ArrayList();
-    String nick = "Danroth";
-    String ident = "Danroth";
+    private PrintWriter writer;
+    private Boolean usenickserv = false;
+    private String nickserv = "";
+    private String server = "irc.esper.net";
+    private int port = 6667;
+    private final List channels = new ArrayList();
+    private String nick = "Danroth";
+    private final String ident = "Danroth";
     public static void main(String[] args)
     {
         (new Danroth()).DanrothStart(args);
     }
 
-    public void DanrothStart(String[] args)
+    void DanrothStart(String[] args)
     {
-         //Define variables
-
-
         //If --help is found, show help window and exit
-        for(int i = 0; i < args.length; i++)
-        {
-            if(args[i].toLowerCase().equalsIgnoreCase("--help"))
-            {
-                System.out.println("Help page here :P");
+        for (String arg1 : args) {
+            if (arg1.toLowerCase().equalsIgnoreCase("--help")) {
                 System.out.println("Arguments list:");
                 System.out.println("\t--help                        Shows this page");
-                System.out.println("\t--nickserv=[Password]         Identifies the bot to nickserv upon connect using the specified password");
-                System.out.println("\t--server=[IRC Server Address] The address of the IRC server. Default Esper");
-                System.out.println("\t--port=[Port]                 The port to connect to the server using. Default 6667");
-                System.out.println("\t--nick=[Nick]                 The nickname for the bot to use");
-                System.out.println("\t--ident=[Ident]               The ident/username for the bot to use");
-                System.out.println("\t--channel=[#channelname]      Join #channel on connect");
+                System.out.println("\t--nickserv=[Password]         Identifies the bot to nickserv upon connect using the specified password. Default: No identification");
+                System.out.println("\t--server=[IRC Server Address] The address of the IRC server. Default: irc.esper.net");
+                System.out.println("\t--port=[Port]                 The port to connect to the server using. Default: 6667");
+                System.out.println("\t--nick=[Nick]                 The nickname for the bot to use. Default: Danroth");
+                System.out.println("\t--ident=[Ident]               The ident/username for the bot to use. Default: Danroth");
+                System.out.println("\t--channel=[#channelname]      Join #channel on connect. Default: No Channels");
                 System.exit(0);
                 return;
             }
         }
         //Otherwise, read the arguments and store them in the appropriate variables.
-        for(int i = 0; i < args.length; i++)
-        {
+        for (String arg : args) {
             //System.out.println(args[i]);
-            if(args[i].toLowerCase().startsWith("--nickserv="))
-            {
+            if (arg.toLowerCase().startsWith("--nickserv=")) {
                 usenickserv = true;
-                nickserv = args[i].substring("--nickserv=".length(), args[i].length());
+                nickserv = arg.substring("--nickserv=".length(), arg.length());
                 System.out.println("Using NickServ authentication.");
-            }
-            else if(args[i].toLowerCase().startsWith("--server="))
-            {
-                server = args[i].toLowerCase().substring("--server=".length(), args[i].length());
+            } else if (arg.toLowerCase().startsWith("--server=")) {
+                server = arg.toLowerCase().substring("--server=".length(), arg.length());
                 System.out.println("Using " + server + " as the server.");
-            }
-            else if(args[i].toLowerCase().startsWith("--port="))
-            {
-                port = Integer.parseInt(args[i].substring("--port=".length(), args[i].length()));
+            } else if (arg.toLowerCase().startsWith("--port=")) {
+                port = Integer.parseInt(arg.substring("--port=".length(), arg.length()));
                 System.out.println("Using port " + port);
-            }
-            else if(args[i].toLowerCase().startsWith("--nick="))
-            {
-                nick = args[i].substring("--nick=".length(), args[i].length());
+            } else if (arg.toLowerCase().startsWith("--nick=")) {
+                nick = arg.substring("--nick=".length(), arg.length());
                 System.out.println("Using nick " + nick);
-            }
-            else if(args[i].toLowerCase().startsWith("--ident="))
-            {
-                nick = args[i].substring("--ident=".length(), args[i].length());
+            } else if (arg.toLowerCase().startsWith("--ident=")) {
+                nick = arg.substring("--ident=".length(), arg.length());
                 System.out.println("Using ident " + ident);
-            }
-            else if(args[i].startsWith("--channel="))
-            {
-                channels.add(args[i].substring("--channel=".length()));
+            } else if (arg.startsWith("--channel=")) {
+                channels.add(arg.substring("--channel=".length()));
             }
 
             //Unknown command
-            else
-            {
-                System.out.println("Unknown argument: " + args[i]);
+            else {
+                System.out.println("Unknown argument: " + arg);
                 System.exit(1);
                 return;
             }
@@ -107,9 +80,9 @@ public class Danroth {
         while( true )
         {
             try {
-                connection = new Socket(server, port);
+                Socket connection = new Socket(server, port);
                 writer = new PrintWriter(connection.getOutputStream(), true);
-                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 writeline("NICK " + nick, writer);
                 writeline("USER " + ident + " 0 * :" + ident, writer);
                 while(true)
@@ -143,27 +116,33 @@ public class Danroth {
                               interpret(read);
                         }
                     }
-                    Thread.sleep(200);
+                    //Thread.sleep();
                 }
             }
             catch(UnknownHostException e)
             {
-                System.out.println("Oops, your host was fucked, Try again pls ("+ server + ")");
+                System.out.println("Oops, your hostname was invalid. Make sure you're connected to the internet and try again. ("+ server + ")");
                 System.exit(1);
             }
             catch (Exception e)
             {
-                System.out.println("oops, something derped. Error stack: ");
+                System.out.println("Oops, an error occured. Please report it to chris@crumbdev.com.\nError stack: ");
                 e.printStackTrace();
                 System.exit(1);
             }
         }
     }
 
-    public void interpret (String read)
+    void interpret(String read)
     {
         synchronized (this)
         {
+            if(read.split(" ")[1].equalsIgnoreCase("NICK") && read.split(" ")[0].startsWith(":" + nick + "!~" + ident))
+            {
+                writeline("PRIVMSG NickServ :REGAIN " + nick + " " + nickserv, writer);
+                writeline("PRIVMSG NickServ :IDENTIFY " + nickserv, writer);
+                writeline("NICK " + nick, writer);
+            }
             if(read.split(" ")[1].equalsIgnoreCase("PRIVMSG"))
             {
                 String responsePrefix;
@@ -197,19 +176,27 @@ public class Danroth {
                 //
                 if(command.equalsIgnoreCase("bwiki"))
                 {
-
+                    writeline(responsePrefix + "bwiki command was used.", writer);
+                    throw new NotImplementedException();
+                    //TODO: To be implemented
                 }
                 else if(command.equalsIgnoreCase("build"))
                 {
                     writeline(responsePrefix + "build command was used", writer);
+                    //TODO: To be implemented
+                    throw new NotImplementedException();
                 }
                 else if(command.equalsIgnoreCase("latest"))
                 {
                     writeline(responsePrefix + "latest command was used", writer);
+                    //TODO: To be implemented
+                    throw new NotImplementedException();
                 }
                 else if(command.equalsIgnoreCase("notch"))
                 {
                     writeline(responsePrefix + "notch command was used", writer);
+                    //TODO: To be implemented
+                    throw new NotImplementedException();
                 }
                 else if(command.equalsIgnoreCase("rules"))
                 {
@@ -234,54 +221,72 @@ public class Danroth {
                             break;
                         case 2:
                             writeline(responsePrefix + "==Rule " + rulenum + ": We are volunteers!==", writer);
+                            //TODO: Finish off the rule
                             break;
                         case 3:
                             writeline(responsePrefix + "==Rule " + rulenum + ": This is not designed as a support channel!==", writer);
+                            //TODO: Finish off the rule
                             break;
                         case 4:
                             writeline(responsePrefix + "==Rule " + rulenum + ": Ignorance isn't a valid defense.==", writer);
+                            //TODO: Finish off the rule
                             break;
                         case 5:
                             writeline(responsePrefix + "==Rule " + rulenum + ": No excessive use of profanity==", writer);
+                            //TODO: Finish off the rule
                             break;
                         case 6:
                             writeline(responsePrefix + "==Rule " + rulenum + ": No racism, discrimination, threats, harrasment or personal attacks of any kind are permitted.==", writer);
+                            //TODO: Finish off the rule
                             break;
                         case 7:
                             writeline(responsePrefix + "==Rule " + rulenum + ": No vulgarity or obscenity.==", writer);
+                            //TODO: Finish off the rule
                             break;
                         case 8:
                             writeline(responsePrefix + "==Rule " + rulenum + ": No spamming is permitted, whatsoever.==", writer);
+                            //TODO: Finish off the rule
                             break;
                         case 9:
                             writeline(responsePrefix + "==Rule " + rulenum + ": No flaming, inciting hatred or instigating flame bait is permitted.==", writer);
+                            //TODO: Finish off the rule
                             break;
                         case 10:
                             writeline(responsePrefix + "==Rule " + rulenum + ": No selling of products or services, unless approved by a member of channel staff.==", writer);
+                            //TODO: Finish off the rule
                             break;
                         case 11:
                             writeline(responsePrefix + "==Rule " + rulenum + ": Do not ask for a position on staff.==", writer);
+                            //TODO: Finish off the rule
                             break;
                         case 12:
                             writeline(responsePrefix + "==Rule " + rulenum + ": No advertising.==", writer);
+                            //TODO: Finish off the rule
                             break;
                         case 13:
                             writeline(responsePrefix + "==Rule " + rulenum + ": Disrespect and intolerance towards other people is NOT acceptable==", writer);
+                            //TODO: Finish off the rule
                             break;
                         case 14:
                             writeline(responsePrefix + "==Rule " + rulenum + ": BE PATIENT and no excessive repeating==", writer);
+                            //TODO: Finish off the rule
                             break;
                         case 15:
                             writeline(responsePrefix + "==Rule " + rulenum + ": Pastebin logs, code snippets, anything longer than 3 lines!==", writer);
+                            //TODO: Finish off the rule
                             break;
                         case 16:
                             writeline(responsePrefix + "==Rule " + rulenum + ": This is an English only channel==", writer);
+                            //TODO: Finish off the rule
                             break;
                         default:
                             writeline(noChannelPrefix + "==Error==", writer);
                             writeline(noChannelPrefix + "Please make sure you typed a valid number between 1 and 16. ", writer);
                             break;
                     }
+                    try{
+                        Thread.sleep(100);
+                    } catch (Exception e) {}
 
                 }
                 else if(command.equalsIgnoreCase("version"))
@@ -297,7 +302,7 @@ public class Danroth {
         }
     }
 
-    public void writeline(String towrite, PrintWriter writer)
+    private void writeline(String towrite, PrintWriter writer)
     {
         writer.write(towrite + "\n");
         writer.flush();
