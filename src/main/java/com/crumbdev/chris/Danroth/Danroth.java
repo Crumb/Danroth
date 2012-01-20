@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.*;
 import java.net.*;
-import org.apache.maven.project.MavenProject;
+import java.util.Map;
+
+import org.yaml.snakeyaml.Yaml;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Danroth {
@@ -18,6 +20,7 @@ public class Danroth {
     private final List channels = new ArrayList();
     private String nick = "Danroth";
     private final String ident = "Danroth";
+    private Map buildinfo;
     public static void main(String[] args)
     {
         (new Danroth()).DanrothStart(args);
@@ -25,6 +28,34 @@ public class Danroth {
 
     void DanrothStart(String[] args)
     {
+        Yaml yaml = new Yaml();
+        InputStream inputStream = getClass().getResourceAsStream("/buildinfo.yml");
+        Reader strreader = new BufferedReader(new InputStreamReader(inputStream));
+        Writer strwriter = new StringWriter();
+        char[] buffer = new char[1024];
+        try{
+            int n;
+            while ((n = strreader.read(buffer)) != -1) {
+                strwriter.write(buffer, 0, n);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            System.exit(1);
+        } finally {
+            try {
+                inputStream.close();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                System.exit(1);
+            }
+        }
+
+        buildinfo = (Map)yaml.load(strwriter.toString());
+
         //If --help is found, show help window and exit
         for (String arg1 : args) {
             if (arg1.toLowerCase().equalsIgnoreCase("--help")) {
@@ -40,6 +71,7 @@ public class Danroth {
                 return;
             }
         }
+
         //Otherwise, read the arguments and store them in the appropriate variables.
         for (String arg : args) {
             //System.out.println(args[i]);
@@ -83,8 +115,8 @@ public class Danroth {
                 Socket connection = new Socket(server, port);
                 writer = new PrintWriter(connection.getOutputStream(), true);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                writeline("NICK " + nick, writer);
-                writeline("USER " + ident + " 0 * :" + ident, writer);
+                writeline("NICK " + nick);
+                writeline("USER " + ident + " 0 * :" + ident);
                 while(true)
                 {
                     if(reader.ready())
@@ -92,10 +124,10 @@ public class Danroth {
                         String read = reader.readLine();
                         System.out.println(read);
                         if(read.startsWith("PING"))
-                            writeline("PONG " + read.split(" ") [1], writer);
+                            writeline("PONG " + read.split(" ") [1]);
                         else if(read.startsWith(":NickServ") && usenickserv)
                         {
-                            writeline("PRIVMSG NickServ :IDENTIFY " + nickserv, writer);
+                            writeline("PRIVMSG NickServ :IDENTIFY " + nickserv);
                             usenickserv = false;
                         }
 
@@ -106,7 +138,7 @@ public class Danroth {
                                     //Join all the channels. This is the first message to be sent out from the server to state that you are connected.
                                     for(int i = 0; i < channels.toArray().length; i++)
                                     {
-                                        writeline("JOIN " + channels.get(i), writer);
+                                        writeline("JOIN " + channels.get(i));
                                     }
                                     break;
                             }
@@ -139,9 +171,9 @@ public class Danroth {
         {
             if(read.split(" ")[1].equalsIgnoreCase("NICK") && read.split(" ")[0].startsWith(":" + nick + "!~" + ident))
             {
-                writeline("PRIVMSG NickServ :REGAIN " + nick + " " + nickserv, writer);
-                writeline("PRIVMSG NickServ :IDENTIFY " + nickserv, writer);
-                writeline("NICK " + nick, writer);
+                writeline("PRIVMSG NickServ :REGAIN " + nick + " " + nickserv);
+                writeline("PRIVMSG NickServ :IDENTIFY " + nickserv);
+                writeline("NICK " + nick);
             }
             if(read.split(" ")[1].equalsIgnoreCase("PRIVMSG"))
             {
@@ -176,38 +208,39 @@ public class Danroth {
                 //
                 if(command.equalsIgnoreCase("bwiki"))
                 {
-                    writeline(responsePrefix + "bwiki command was used.", writer);
+                    writeline(responsePrefix + "bwiki command was used.");
                     throw new NotImplementedException();
                     //TODO: To be implemented
                 }
                 else if(command.equalsIgnoreCase("build"))
                 {
-                    writeline(responsePrefix + "build command was used", writer);
+                    writeline(responsePrefix + "build command was used");
                     //TODO: To be implemented
                     throw new NotImplementedException();
                 }
                 else if(command.equalsIgnoreCase("latest"))
                 {
-                    writeline(responsePrefix + "latest command was used", writer);
+                    writeline(responsePrefix + "latest command was used");
                     //TODO: To be implemented
                     throw new NotImplementedException();
                 }
                 else if(command.equalsIgnoreCase("notch"))
                 {
-                    writeline(responsePrefix + "notch command was used", writer);
+                    writeline(responsePrefix + "notch command was used");
                     //TODO: To be implemented
                     throw new NotImplementedException();
                 }
                 else if(command.equalsIgnoreCase("rules"))
                 {
-                    writeline(noChannelPrefix + "\u0002==IRC Rules==", writer);
-                    writeline(noChannelPrefix + "IRC Rules can be found at http://wiki.bukkit.org/IRC", writer);
+                    writeline(noChannelPrefix + "\u0002==IRC Rules==");
+                    writeline(noChannelPrefix + "A full list of IRC Rules can be found at http://wiki.bukkit.org/IRC");
+                    writeline(noChannelPrefix + "Use the \"rule <number>\" command for details on each rule.");
                 }
                 else if(command.equalsIgnoreCase("rule"))
                 {
                     int rulenum = -1;
 
-                    try{               //Trys to get the rule number, surrounded by a try/catch just in case they leave an empty rule number, or other non-integer.
+                    try{               //Tries to get the rule number, surrounded by a try/catch just in case they leave an empty rule number, or other non-integer.
                         rulenum = Integer.parseInt(read.split(" ")[4]);
                         //int rulenum = (int)rulenum;
                     }
@@ -215,73 +248,73 @@ public class Danroth {
                     switch(rulenum)
                     {
                         case 1:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": ALWAYS READ THE TOPIC==", writer);
-                            writeline(responsePrefix + "It's the first thing you see when you connect to or join the channel and it is usually at the top of the", writer);
-                            writeline(responsePrefix + "screen at all times. Read it when you connect, when you join, when you come back from being away. Always.", writer);
+                            writeline(responsePrefix + "==Rule " + rulenum + ": ALWAYS READ THE TOPIC==");
+                            writeline(responsePrefix + "It's the first thing you see when you connect to or join the channel and it is usually at the top of the screen at all times. Read it when you connect, when you join, when you come back from being away. Always.");
                             break;
                         case 2:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": We are volunteers!==", writer);
-                            //TODO: Finish off the rule
+                            writeline(responsePrefix + "==Rule " + rulenum + ": We are volunteers!==");
+                            writeline(responsePrefix + "The people helping out in Bukkit's IRC channels are doing so voluntarily and not being compensated in any way. We do not owe you anything, nor are we obligated to respond to you. Please show common courtesy and show your appreciation for everyone giving you their time.");
                             break;
                         case 3:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": This is not designed as a support channel!==", writer);
-                            //TODO: Finish off the rule
+                            writeline(responsePrefix + "==Rule " + rulenum + ": This is not designed as a support channel!==");
+                            writeline(responsePrefix + "Remember, #bukkit is not designed to be a support channel - people just help out when they can. That being said, you're likely to get help faster if you follow our Support Guidelines ( http://bit.ly/qcxKJt )");
                             break;
                         case 4:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": Ignorance isn't a valid defense.==", writer);
-                            //TODO: Finish off the rule
+                            writeline(responsePrefix + "==Rule " + rulenum + ": Ignorance isn't a valid defense.==");
                             break;
                         case 5:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": No excessive use of profanity==", writer);
-                            //TODO: Finish off the rule
+                            writeline(responsePrefix + "==Rule " + rulenum + ": No excessive use of profanity==");
+                            writeline(responsePrefix + "While we have no objection to sharing your opinions and debating a topic - in fact, we encourage it - with other members of this community, we do not tolerate any excessive profanity whatsoever.");
+                            writeline(responsePrefix + "A minor or infrequent usage of profanity is permitted. If you are found to be using profanity frequently, your posts will be deemed of a flaming nature and you will be dealt with accordingly.");
+                            writeline(responsePrefix + "Since the measure of excessive usage is ultimately decided by channel staff on a case by case basis, you will receive ample warning prior to being banned due to the infringement of this clause.");
                             break;
                         case 6:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": No racism, discrimination, threats, harrasment or personal attacks of any kind are permitted.==", writer);
-                            //TODO: Finish off the rule
+                            writeline(responsePrefix + "==Rule " + rulenum + ": No racism, discrimination, threats, harrasment or personal attacks of any kind are permitted.==");
+                            writeline(responsePrefix + "This is a friendly community and as such you are expected to be courteous and follow general chatting etiquette. There are times when you may not agree with someone, or you've had a bad day and that's fine, we all have those days. But please, for your own benefit, leave your problems off Bukkit.org and our of the channel. Doing so will ensure that the Bukkit Community is a welcoming, friendly one.");
                             break;
                         case 7:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": No vulgarity or obscenity.==", writer);
-                            //TODO: Finish off the rule
+                            writeline(responsePrefix + "==Rule " + rulenum + ": No vulgarity or obscenity.==");
                             break;
                         case 8:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": No spamming is permitted, whatsoever.==", writer);
-                            //TODO: Finish off the rule
+                            writeline(responsePrefix + "==Rule " + rulenum + ": No spamming is permitted, whatsoever.==");
+                            writeline(responsePrefix + "Spam is posting any content that is not within the topic of discussion, or does not contribute anything to the channel - off topic OR on topic. The definition of spam used by this community is determined by the channel staff and is not open to discussion.");
+                            writeline(responsePrefix + "Spam also constitutes, but is not limited to, messages that are formatted incorrectly (has excessive colour, bold etc.) or is in all caps, mixed caps or any other formatting deemed intrusive or annoying by the channel staff.");
                             break;
                         case 9:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": No flaming, inciting hatred or instigating flame bait is permitted.==", writer);
-                            //TODO: Finish off the rule
+                            writeline(responsePrefix + "==Rule " + rulenum + ": No flaming, inciting hatred or instigating flame bait is permitted.==");
+                            writeline(responsePrefix + "This is a friendly community and as such you are expected to be courteous and follow general chatting etiquette.");
+                            writeline(responsePrefix + "In general, any parties involved in a flame-fest - whether they be the instigator or the flamer, will be dealt with accordingly. The best way to stay out of trouble, with regards to flame-fests, is to not join in.");
                             break;
                         case 10:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": No selling of products or services, unless approved by a member of channel staff.==", writer);
-                            //TODO: Finish off the rule
+                            writeline(responsePrefix + "==Rule " + rulenum + ": No selling of products or services, unless approved by a member of channel staff.==");
                             break;
                         case 11:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": Do not ask for a position on staff.==", writer);
-                            //TODO: Finish off the rule
+                            writeline(responsePrefix + "==Rule " + rulenum + ": Do not ask for a position on staff.==");
+                            writeline(responsePrefix + "For those of you interested in being a part of the Bukkit Community staff, here's some advice: Since launching we've received requests from people to be a part of our staff - be it IRC, wiki, community, etc. but what is important to note is that the vast majority of those requests have been accompanied by a lack of initiative being shown.");
+                            writeline(responsePrefix + "Show some initiative and your work will be noticed, along with your attitude and your passion for the community and the chances of us picking you up to help out will be higher. This should really have gone without saying. ");
+                            writeline(responsePrefix + "EvilSeph's policy generally is: if you ask for a position or privileges, you reduce the chances of your getting it. You shouldn't have to ask; you demonstrate that you fit the bill and things should fall into line.");
                             break;
                         case 12:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": No advertising.==", writer);
-                            //TODO: Finish off the rule
+                            writeline(responsePrefix + "==Rule " + rulenum + ": No advertising.==");
+                            writeline(responsePrefix + "Advertising of any form is completely prohibited unless otherwise stated by channel staff.");
                             break;
                         case 13:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": Disrespect and intolerance towards other people is NOT acceptable==", writer);
-                            //TODO: Finish off the rule
+                            writeline(responsePrefix + "==Rule " + rulenum + ": Disrespect and intolerance towards other people is NOT acceptable==");
                             break;
                         case 14:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": BE PATIENT and no excessive repeating==", writer);
-                            //TODO: Finish off the rule
+                            writeline(responsePrefix + "==Rule " + rulenum + ": BE PATIENT and no excessive repeating==");
                             break;
                         case 15:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": Pastebin logs, code snippets, anything longer than 3 lines!==", writer);
-                            //TODO: Finish off the rule
+                            writeline(responsePrefix + "==Rule " + rulenum + ": Pastebin logs, code snippets, anything longer than 3 lines!==");
+                            writeline(responsePrefix + "Do NOT use Mibpaste, it's an eye-sore. Please use http://pastie.org, http://pastebin.com, http://slexy.org or http://gist.github.com instead.");
                             break;
                         case 16:
-                            writeline(responsePrefix + "==Rule " + rulenum + ": This is an English only channel==", writer);
-                            //TODO: Finish off the rule
+                            writeline(responsePrefix + "==Rule " + rulenum + ": This is an English only channel==");
+                            writeline(responsePrefix + "Please try and speak English only in our channel as our staff do not understand any other languages, making it difficult to moderate the channel effectively. Please also refrain from bastardising the English language through the use of \"txt speak\" as it is very annoying and has no place on IRC.");
                             break;
                         default:
-                            writeline(noChannelPrefix + "==Error==", writer);
-                            writeline(noChannelPrefix + "Please make sure you typed a valid number between 1 and 16. ", writer);
+                            writeline(noChannelPrefix + "==Error==");
+                            writeline(noChannelPrefix + "Please make sure you typed a valid number between 1 and 16. ");
                             break;
                     }
                     try{
@@ -291,18 +324,17 @@ public class Danroth {
                 }
                 else if(command.equalsIgnoreCase("version"))
                 {
-                    //writeline(noChannelPrefix + "Running Danroth build " + new MavenProject().getProperties().getProperty("build.number"), writer);
+                        writeline(noChannelPrefix + "Running Danroth build #" + ((Map) buildinfo.get("build")).get("number").toString());
                 }
                 else if(command.equalsIgnoreCase("help"))
                 {
-                    writeline(noChannelPrefix + "\u0002==Danroth Commands==", writer);
-                    writeline(noChannelPrefix + "IRC Commands can be found at http://wiki.bukkit.org/IRC/Bots/Danroth", writer);
+                    writeline(noChannelPrefix + "\u0002==Danroth Commands==");
+                    writeline(noChannelPrefix + "IRC Commands can be found at http://wiki.bukkit.org/IRC/Bots/Danroth");
                 }
             }
         }
     }
-
-    private void writeline(String towrite, PrintWriter writer)
+    private void writeline(String towrite)
     {
         writer.write(towrite + "\n");
         writer.flush();
