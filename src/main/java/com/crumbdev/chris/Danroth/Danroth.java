@@ -6,6 +6,16 @@ import java.util.List;
 import java.io.*;
 import java.net.*;
 import java.util.Map;
+import java.net.URL;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.CharacterData;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import org.yaml.snakeyaml.Yaml;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -25,6 +35,25 @@ public class Danroth {
     {
         (new Danroth()).DanrothStart(args);
     }
+
+    Runnable r = new Runnable() {
+        @Override
+        public void run() {
+            while(true)
+            {
+                flood = 0;
+                try{
+                    Thread.sleep(20000);
+                }
+                catch (Exception e)
+                {
+                    writeline("PRIVMSG #Danroth :" + e.getMessage());
+                    for(StackTraceElement el : e.getStackTrace())
+                        writeline("PRIVMSG #Danroth :" + el.toString());
+                }
+            }
+        }
+    };
 
     void DanrothStart(String[] args)
     {
@@ -117,6 +146,7 @@ public class Danroth {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 writeline("NICK " + nick);
                 writeline("USER " + ident + " 0 * :" + ident);
+                new Thread(r).start();
                 while(true)
                 {
                     if(reader.ready())
@@ -141,6 +171,14 @@ public class Danroth {
                                         writeline("JOIN " + channels.get(i));
                                     }
                                     break;
+                                case 433:
+                                    writeline("NICK " + nick + "_");
+                                    writeline("PRIVMSG NickServ :REGAIN " + nick + " " + nickserv);
+                                    writeline("PRIVMSG NickServ :IDENTIFY " + nickserv);
+                                    writeline("NICK " + nick);
+                                    break;
+                                default:
+                                    interpret(read);
                             }
                         }
                         catch (Exception e)
@@ -148,7 +186,10 @@ public class Danroth {
                               interpret(read);
                         }
                     }
-                    //Thread.sleep();
+                    else
+                    {
+                        Thread.sleep(100);
+                    }
                 }
             }
             catch(UnknownHostException e)
@@ -165,16 +206,14 @@ public class Danroth {
         }
     }
 
+    public boolean disabled = false;
+    public int flood = 0;
+
+    
     void interpret(String read)
     {
         synchronized (this)
         {
-            if(read.split(" ")[1].equalsIgnoreCase("NICK") && read.split(" ")[0].startsWith(":" + nick + "!~" + ident))
-            {
-                writeline("PRIVMSG NickServ :REGAIN " + nick + " " + nickserv);
-                writeline("PRIVMSG NickServ :IDENTIFY " + nickserv);
-                writeline("NICK " + nick);
-            }
             if(read.split(" ")[1].equalsIgnoreCase("PRIVMSG"))
             {
                 String responsePrefix;
@@ -202,33 +241,110 @@ public class Danroth {
                 {
                     return;
                 }
+                if(++flood >= 4 && command != "disable" && command != "enable")
+                {
+                    return;
+                }
+                if(command.equalsIgnoreCase("disable") && (read.toLowerCase().startsWith(":chrisward!") || read.toLowerCase().startsWith(":chris!")))
+                {
+                    writeline("NICK " + nick + "|Disabled");
+                    disabled = true;
+                }
+                else if(command.equalsIgnoreCase("enable") && (read.toLowerCase().startsWith(":chrisward!") || read.toLowerCase().startsWith(":chris!")))
+                {
+                    writeline("NICK " + nick);
+                    disabled = false;
+                    flood = 0;
+                }
+                else if(disabled)
+                    return;
+
+
+
 
                 //
                 // Commands
                 //
-                if(command.equalsIgnoreCase("bwiki"))
+                else if(command.equalsIgnoreCase("bwiki"))
                 {
-                    writeline(responsePrefix + "bwiki command was used.");
-                    throw new NotImplementedException();
-                    //TODO: To be implemented
+                    try
+                    {
+                        URL u = new URL("http://wiki.bukkit.org/index.php?title=Special:RecentChanges&feed=atom");
+                        java.net.URLConnection c = u.openConnection();
+                        c.addRequestProperty("User-Agent", "Mozilla/4.76");
+                        c.addRequestProperty("X-I-Am-A-Bot", "Danroth");
+                        BufferedReader feedreader = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                        String feedRead = "";
+                        while(feedreader.ready())
+                        {
+                            feedRead += feedreader.readLine();
+                        }
+                        feedRead = feedRead.split("<entry>")[1].split("</entry>")[0];
+                        String timestamp = feedRead.split("<updated>")[1].split("</updated>")[0];
+
+                        writeline(responsePrefix + "==Latest Wiki Edit==");
+                        writeline(responsePrefix + "Page: " + feedRead.split("<id>")[1].split("</id>")[0].replace("&amp;", "&"));
+                        writeline(responsePrefix + "Edit summary: " + feedRead.split("<summary type=\"html\">")[1].split("</summary>")[0].replace("&gt;", ">").replace("&lt;", "<").replace("&amp;", "&").replaceAll("\\<.*?>",""));
+                        writeline(responsePrefix + "Author: " + feedRead.split("<author>")[1].split("</author>")[0].split("<name>")[1].split("</name>")[0]);
+                        writeline(responsePrefix + "Datestamp: " + timestamp.substring(8, 10) + "/" + timestamp.substring(5, 7) + "/" + timestamp.substring(0, 4) + " " + timestamp.substring(11, 19));
+
+                        
+
+                        System.out.println(feedRead);
+
+                    }
+                    catch (Exception e)
+                    {
+                        writeline(responsePrefix + "An error occurred while performing this command.");
+                        writeline("PRIVMSG #Danroth :" + e.getMessage());
+
+                        for(StackTraceElement line : e.getStackTrace())
+                        {
+                            writeline("PRIVMSG #Danroth :" + line.toString());
+                        }
+                    }
                 }
-                else if(command.equalsIgnoreCase("build"))
+                else if(command.equalsIgnoreCase("build") || command.equalsIgnoreCase("latest"))
                 {
-                    writeline(responsePrefix + "build command was used");
+                    writeline(responsePrefix + "ci.bukkit.org is down, and this command will be implemented when it comes back up, or when an alternate does.");
                     //TODO: To be implemented
-                    throw new NotImplementedException();
-                }
-                else if(command.equalsIgnoreCase("latest"))
-                {
-                    writeline(responsePrefix + "latest command was used");
-                    //TODO: To be implemented
-                    throw new NotImplementedException();
                 }
                 else if(command.equalsIgnoreCase("notch"))
                 {
-                    writeline(responsePrefix + "notch command was used");
-                    //TODO: To be implemented
-                    throw new NotImplementedException();
+                    try
+                    {
+                        URL u = new URL("http://notch.tumblr.com/rss");
+                        java.net.URLConnection c = u.openConnection();
+                        c.addRequestProperty("User-Agent", "Mozilla/4.76");
+                        c.addRequestProperty("X-I-Am-A-Bot", "Danroth");
+                        BufferedReader feedreader = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                        String feedRead = "";
+                        while(feedreader.ready())
+                        {
+                            feedRead += feedreader.readLine();
+                        }
+                        feedRead = feedRead.split("<item>")[1].split("</item>")[0];
+                        writeline(responsePrefix + "==Notch Stalking Module==");
+                        writeline(responsePrefix + "Title: " + feedRead.split("<title>")[1].split("</title>")[0]);
+                        writeline(responsePrefix + "Date/Time: " + feedRead.split("<pubDate>")[1].split("</pubDate>")[0]);
+                        writeline(responsePrefix + "Link: " + feedRead.split("<link>")[1].split("</link>")[0]);
+
+
+
+
+                        System.out.println(feedRead);
+
+                    }
+                    catch (Exception e)
+                    {
+                        writeline(responsePrefix + "An error occurred while performing this command.");
+                        writeline("PRIVMSG #Danroth :" + e.getMessage());
+
+                        for(StackTraceElement line : e.getStackTrace())
+                        {
+                            writeline("PRIVMSG #Danroth :" + line.toString());
+                        }
+                    }
                 }
                 else if(command.equalsIgnoreCase("rules"))
                 {
@@ -236,6 +352,7 @@ public class Danroth {
                     writeline(noChannelPrefix + "A full list of IRC Rules can be found at http://wiki.bukkit.org/IRC");
                     writeline(noChannelPrefix + "Use the \"rule <number>\" command for details on each rule.");
                 }
+
                 else if(command.equalsIgnoreCase("rule"))
                 {
                     int rulenum = -1;
