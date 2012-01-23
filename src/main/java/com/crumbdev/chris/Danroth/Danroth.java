@@ -265,7 +265,7 @@ public class Danroth {
                 //
                 // Commands
                 //
-                else if(command.equalsIgnoreCase("bwiki"))
+                else if(command.equalsIgnoreCase("bwiki") || command.equalsIgnoreCase("wiki"))
                 {
                     try
                     {
