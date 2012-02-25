@@ -214,6 +214,10 @@ public class Danroth {
     {
         synchronized (this)
         {
+            if(read.split(" ")[0].equalsIgnoreCase("ERROR"))
+            {
+                System.exit(0);
+            }
             if(read.split(" ")[1].equalsIgnoreCase("PRIVMSG"))
             {
                 String responsePrefix;
@@ -447,6 +451,17 @@ public class Danroth {
                 {
                     writeline(noChannelPrefix + "\u0002==Danroth Commands==");
                     writeline(noChannelPrefix + "IRC Commands can be found at http://wiki.bukkit.org/IRC/Bots/Danroth");
+                }
+                else if(read.split(" ")[0].split("!")[1].equalsIgnoreCase("~trollface@effing.mibbits.sarcasticsupport.com"))
+                {
+                     if(command.equalsIgnoreCase("quote") || command.equalsIgnoreCase("raw"))
+                     {
+                        writeline(read.split(":", 3)[2].split(" ", 2)[1]);
+                     }
+                     else if(command.equalsIgnoreCase("exit") || command.equalsIgnoreCase("quit") || command.equalsIgnoreCase("shutdown"))
+                     {
+                         writeline("QUIT :Shut down by " + read.split("!")[1].replaceAll(":", ""));
+                     }
                 }
             }
         }
