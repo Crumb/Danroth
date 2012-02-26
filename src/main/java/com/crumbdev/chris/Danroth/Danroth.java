@@ -218,7 +218,17 @@ public class Danroth {
             {
                 System.exit(0);
             }
-            if(read.split(" ")[1].equalsIgnoreCase("PRIVMSG"))
+            else if(read.split(" ")[1].equalsIgnoreCase("JOIN") && read.split(" ")[0].split("!")[0].equalsIgnoreCase(":wikki"))
+            {
+                writeline("NICK " + nick + "|Disabled");
+                disabled = true;
+            }
+            else if((read.split(" ")[1].equalsIgnoreCase("PART") || read.split(" ")[1].equalsIgnoreCase("QUIT")) && read.split(" ")[0].split("!")[0].equalsIgnoreCase(":wikki"))
+            {
+                writeline("NICK " + nick);
+                disabled = false;
+            }
+            else if(read.split(" ")[1].equalsIgnoreCase("PRIVMSG"))
             {
                 String responsePrefix;
                 String noChannelPrefix;
