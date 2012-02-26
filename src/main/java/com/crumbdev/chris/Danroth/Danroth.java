@@ -470,7 +470,14 @@ public class Danroth {
                      }
                      else if(command.equalsIgnoreCase("exit") || command.equalsIgnoreCase("quit") || command.equalsIgnoreCase("shutdown"))
                      {
-                         writeline("QUIT :Shut down by " + read.split("!")[1].replaceAll(":", ""));
+                         writeline("QUIT :Shut down by " + read.split("!")[0].replaceAll(":", ""));
+                     }
+                     else if(command.equalsIgnoreCase("me") || command.equalsIgnoreCase("action") || command.equalsIgnoreCase("emote"))
+                     {
+                         if(read.split(" ")[4].startsWith("#"))
+                             writeline("PRIVMSG " + read.split(" ")[4] + " :\001ACTION " + read.split(" ", 6)[5] + "\001");
+                         else
+                             writeline("PRIVMSG " + read.split(" ")[2] + " :\001ACTION " + read.split(" ", 5)[4] + "\001");
                      }
                 }
             }
@@ -481,4 +488,4 @@ public class Danroth {
         writer.write(towrite + "\n");
         writer.flush();
     }
-}
+}                                                                                                                                                      
