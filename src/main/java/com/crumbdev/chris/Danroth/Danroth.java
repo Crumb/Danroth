@@ -141,7 +141,7 @@ public class Danroth {
         while( true )
         {
             try {
-                Socket connection = new Socket(server, port);
+                Socket connection = new Socket(server, port, InetAddress.getByName("199.115.230.168"), 0);
                 writer = new PrintWriter(connection.getOutputStream(), true);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 writeline("NICK " + nick);
