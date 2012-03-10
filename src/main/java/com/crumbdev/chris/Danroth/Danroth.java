@@ -294,6 +294,7 @@ public class Danroth {
                             feedRead += feedreader.readLine();
                         }
                         feedRead = feedRead.split("<entry>")[1].split("</entry>")[0];
+                        feedreader.close();
                         String timestamp = feedRead.split("<updated>")[1].split("</updated>")[0];
 
                         writeline(responsePrefix + "==Latest Wiki Edit==");
@@ -320,8 +321,51 @@ public class Danroth {
                 }
                 else if(command.equalsIgnoreCase("build") || command.equalsIgnoreCase("latest"))
                 {
-                    writeline(responsePrefix + "ci.bukkit.org is down, and this command will be implemented when it comes back up, or when an alternate does.");
-                    //TODO: To be implemented
+                    //http://dl.bukkit.org/api/1.0/downloads/projects/craftbukkit/artifacts/beta/
+                    try
+                    {
+                        URL u = new URL("http://dl.bukkit.org/api/1.0/downloads/projects/craftbukkit/artifacts/dev/");
+                        java.net.URLConnection c = u.openConnection();
+                        c.addRequestProperty("User-Agent", "Mozilla/4.76");
+                        c.addRequestProperty("X-I-Am-A-Bot", "Danroth");
+                        c.addRequestProperty("Accept", "application/xml");
+                        BufferedReader feedreader = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                        String feedRead = "";
+                        while(feedreader.ready())
+                        {
+                            feedRead += feedreader.readLine();
+                        }
+                        feedRead = feedRead.split("<list-item>")[1].split("</list-item>")[0];
+                        feedreader.close();
+
+                        URL u2 = new URL("http://dl.bukkit.org/api/1.0/downloads/projects/craftbukkit/artifacts/beta/");
+                        java.net.URLConnection c2 = u2.openConnection();
+                        c2.addRequestProperty("User-Agent", "Mozilla/4.76");
+                        c2.addRequestProperty("X-I-Am-A-Bot", "Danroth");
+                        c2.addRequestProperty("Accept", "application/xml");
+                        BufferedReader feedreader2 = new BufferedReader(new InputStreamReader(c2.getInputStream()));
+                        String feedRead2 = "";
+                        while(feedreader2.ready())
+                        {
+                            feedRead2 += feedreader2.readLine();
+                        }
+                        feedRead2 = feedRead2.split("<list-item>")[1].split("</list-item>")[0];
+                        feedreader2.close();
+
+                        writeline(responsePrefix + "==Bukkit Builds==");
+                        writeline(responsePrefix + "Latest Dev. Build: \u0002#" + feedRead.split("<build_number>")[1].split("</build_number>")[0] + "\u0002 (" + feedRead.split("<created>")[1].split("</created>")[0].split(" ")[1] + " " + feedRead.split("<created>")[1].split("</created>")[0].split(" ")[0].split("-")[2] + "/" + feedRead.split("<created>")[1].split("</created>")[0].split(" ")[0].split("-")[1] + "/" +  feedRead.split("<created>")[1].split("</created>")[0].split(" ")[0].split("-")[0] + ") \u000312" + feedRead.split("<html_url>")[1].split("</html_url>")[0]);
+                        writeline(responsePrefix + "Latest Rec. Build: \u0002#" + feedRead2.split("<build_number>")[1].split("</build_number>")[0] + "\u0002 (" + feedRead2.split("<created>")[1].split("</created>")[0].split(" ")[1] + " " + feedRead2.split("<created>")[1].split("</created>")[0].split(" ")[0].split("-")[2] + "/" + feedRead2.split("<created>")[1].split("</created>")[0].split(" ")[0].split("-")[1] + "/" +  feedRead2.split("<created>")[1].split("</created>")[0].split(" ")[0].split("-")[0] + ") \u000312" + feedRead2.split("<html_url>")[1].split("</html_url>")[0]);
+                    }
+                    catch (Exception e)
+                    {
+                        writeline(responsePrefix + "An error occurred while performing this command.");
+                        writeline("PRIVMSG #Danroth :" + e.getMessage());
+
+                        for(StackTraceElement line : e.getStackTrace())
+                        {
+                            writeline("PRIVMSG #Danroth :" + line.toString());
+                        }
+                    }
                 }
                 else if(command.equalsIgnoreCase("notch"))
                 {
@@ -338,16 +382,11 @@ public class Danroth {
                             feedRead += feedreader.readLine();
                         }
                         feedRead = feedRead.split("<item>")[1].split("</item>")[0];
+                        feedreader.close();
                         writeline(responsePrefix + "==Notch Stalking Module==");
                         writeline(responsePrefix + "Title: " + feedRead.split("<title>")[1].split("</title>")[0]);
                         writeline(responsePrefix + "Date/Time: " + feedRead.split("<pubDate>")[1].split("</pubDate>")[0]);
                         writeline(responsePrefix + "Link: " + feedRead.split("<link>")[1].split("</link>")[0]);
-
-
-
-
-                        System.out.println(feedRead);
-
                     }
                     catch (Exception e)
                     {
@@ -462,7 +501,7 @@ public class Danroth {
                     writeline(noChannelPrefix + "\u0002==Danroth Commands==");
                     writeline(noChannelPrefix + "IRC Commands can be found at http://wiki.bukkit.org/IRC/Bots/Danroth");
                 }
-                else if(read.split(" ")[0].split("!")[1].equalsIgnoreCase("~trollface@effing.mibbits.sarcasticsupport.com"))
+                else if(read.split(" ")[0].split("!")[1].equalsIgnoreCase("~trollface@lieking.the.mudkipz.ws"))
                 {
                      if(command.equalsIgnoreCase("quote") || command.equalsIgnoreCase("raw"))
                      {
